@@ -13,10 +13,10 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     Collider2D cl;
 
-    const int ANIMATION_CORRER = 2;
+    const int ANIMATION_CORRER = 1;
     const int ANIMATION_QUIETO = 0;
-    const int ANIMATION_CAMINAR = 1;
-    const int ANIMATION_ATACAR = 5;
+    const int ANIMATION_CAMINAR = 2;
+    const int ANIMATION_ATACAR = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rb.velocity=new Vector2(0,rb.velocity.y);
         Caminar();
         Correr();
         Saltar();
@@ -45,16 +46,11 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(veloci, rb.velocity.y);
             ChangeAnimation(ANIMATION_CAMINAR);
         }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            ChangeAnimation(ANIMATION_QUIETO);
-        }
         if (Input.GetKey(KeyCode.LeftArrow)){
             rb.velocity = new Vector2(-veloci, rb.velocity.y);
             ChangeAnimation(ANIMATION_CAMINAR);
         }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
             ChangeAnimation(ANIMATION_QUIETO);
@@ -76,7 +72,7 @@ public class PlayerController : MonoBehaviour
     private void Saltar()
     {
         animator.SetFloat("jumpVelocity", rb.velocity.y);
-        if(!cl.IsTouchingLayers(LayerMask.GetMask("ground"))){return;}
+        if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
         if (Input.GetKey(KeyCode.Space))
         {
             rb.velocity = new Vector2(rb.velocity.x, velocityJump);
@@ -86,6 +82,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Z)){
             ChangeAnimation(ANIMATION_ATACAR);
+        }
+        else if (Input.GetKeyUp(KeyCode.Z)){
+            ChangeAnimation(ANIMATION_QUIETO);
         }
     }
     private void GirarAnimacion()
@@ -103,9 +102,9 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetInteger("Estado", animation);
     }
-    private void CheckGround()
+    private void CheckGround()//para sentir el piso
     {
-        if(cl.IsTouchingLayers(LayerMask.GetMask("ground")))
+        if(cl.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             animator.SetBool("isGround", true);
         }
