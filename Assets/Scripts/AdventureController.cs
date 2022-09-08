@@ -12,6 +12,7 @@ public class AdventureController : MonoBehaviour
     Animator animator;
     Collider2D cl;
     Vector3 lastCheckpointPosition;
+    Vector3 temp;
 
     const int ANIMATION_CORRER = 1;
     const int ANIMATION_QUIETO = 0;
@@ -105,6 +106,10 @@ public class AdventureController : MonoBehaviour
             {
                 transform.position = lastCheckpointPosition;
             }
+            if(temp != null)
+            {
+                transform.position = temp;
+            }
         }        
     }
 
@@ -112,5 +117,10 @@ public class AdventureController : MonoBehaviour
     {
         Debug.Log("Trigger");
         lastCheckpointPosition = transform.position;
+        if(other.gameObject.name == "Sign")
+        {
+            temp = transform.position;
+        }
+        
     }
 }
