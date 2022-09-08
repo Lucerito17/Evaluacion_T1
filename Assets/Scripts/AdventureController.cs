@@ -5,7 +5,7 @@ using UnityEngine;
 public class AdventureController : MonoBehaviour
 {
     public float velocity = 10;
-    public float VelocityJump = 8;
+    public float VelocityJump = 25;
 
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -15,6 +15,7 @@ public class AdventureController : MonoBehaviour
 
     const int ANIMATION_CORRER = 1;
     const int ANIMATION_QUIETO = 0;
+    int cont;
 
     void Start()
     {
@@ -55,10 +56,12 @@ public class AdventureController : MonoBehaviour
     private void Saltar()
     {
         animator.SetFloat("VelocityJump", rb.velocity.y);
-        if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
-        if (Input.GetKey(KeyCode.Space))
+        //if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){ return;}
+        if (Input.GetKeyDown(KeyCode.Space)&& cont!=1)
         {
             rb.velocity = new Vector2(rb.velocity.x, VelocityJump);
+            cont++;
+            Debug.Log(cont);
         }
     }
     private void GirarAnimacion()
@@ -80,6 +83,7 @@ public class AdventureController : MonoBehaviour
     {
         if(cl.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
+            cont = 0;
             animator.SetBool("isGround", true);
         }
         else
