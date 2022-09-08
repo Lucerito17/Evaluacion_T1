@@ -62,7 +62,7 @@ public class AdventureController : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, VelocityJump);
             cont++;
-            Debug.Log(cont);
+            //Debug.Log(cont); //para ver si salta 2 veces
         }
     }
     private void GirarAnimacion()
