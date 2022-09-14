@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class NinjaController : MonoBehaviour
 {
-    public float velocity = 10;
-    public float jumpVelocity = 10;
+    public float velocity = 3;
+    public float jumpVelocity = 8;
+    bool morir = false;
     public GameObject Balas;
     public GameManagerController gameManager;
 
@@ -20,7 +21,7 @@ public class NinjaController : MonoBehaviour
 
     const int ANIMATION_CORRER = 3;
     const int ANIMATION_QUIETO = 0;
-    int cont;
+    const int ANIMATION_MUERTO = 1;
 
     void Start()
     {
@@ -33,12 +34,23 @@ public class NinjaController : MonoBehaviour
 
     void Update()
     {
-        rb.velocity=new Vector2(0,rb.velocity.y);
-        Disparar();
-        Correr();
-        Saltar();
-        GirarAnimacion();
-        CheckGround();
+        if(morir == false){
+            Disparar();
+            Saltar();
+            Correr();
+            GirarAnimacion();
+            CheckGround();
+        }
+        else Morir(); 
+    }
+
+    private void Morir()
+    {
+        if(morir == true && gameManager.vida>0){
+            ChangeAnimation(ANIMATION_MUERTO);
+            gameManager.PerderVida();
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
 
     private void Correr()
@@ -50,12 +62,10 @@ public class NinjaController : MonoBehaviour
     private void Saltar()
     {
         animator.SetFloat("jumpVelocity", rb.velocity.y);
-        //if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){ return;}
-        if (Input.GetKeyDown(KeyCode.Space)&& cont!=1)
+        if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
-            cont++;
-            //Debug.Log(cont); //para ver si salta 2 veces
         }
     }
     private void GirarAnimacion()
@@ -73,11 +83,11 @@ public class NinjaController : MonoBehaviour
     {
         animator.SetInteger("Estado", animation);
     }
+
     private void CheckGround()
     {
         if(cl.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
-            cont = 0;
             animator.SetBool("isGround", true);
         }
         else
@@ -91,7 +101,17 @@ public class NinjaController : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("Moriste");
+            rb.velocity=new Vector2(0,rb.velocity.y);
+            morir = true;
         }
+
+        if(other.gameObject.name =="DarkHole")
+        {
+            if(lastCheckpointPosition != null)
+            {
+                transform.position = lastCheckpointPosition;
+            }
+        }  
       
     }
 
