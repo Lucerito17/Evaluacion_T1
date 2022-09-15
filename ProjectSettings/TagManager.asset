@@ -7,6 +7,9 @@ TagManager:
   - Checkpoint
   - Enemy
   - Ground
+  - CoinB
+  - CoinG
+  - CoinS
   layers:
   - Default
   - TransparentFX
