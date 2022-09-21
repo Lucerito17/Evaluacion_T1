@@ -10,6 +10,7 @@ TagManager:
   - CoinB
   - CoinG
   - CoinS
+  - palotransparente
   layers:
   - Default
   - TransparentFX

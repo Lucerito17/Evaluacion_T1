@@ -8,12 +8,14 @@ public class PlayerController : MonoBehaviour
 {
     public float veloci = 6;
     public float velocity = 10;
-    public float velocityJump = 12;
+    public float velocityJump = 40;
     public GameObject Bullet;
     public GameManagerController gameManager;
 
     public AudioClip jumpClip;
     public AudioClip monedaClip;
+    Vector3 temp;
+    Vector3 lastCheckpointPosition;
 
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -25,8 +27,8 @@ public class PlayerController : MonoBehaviour
     const int ANIMATION_QUIETO = 0;
     const int ANIMATION_CAMINAR = 2;
     const int ANIMATION_ATACAR = 3;
+    const int ANIMATION_MORIR = 4;
 
-    // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Iniciando Juego");
@@ -37,16 +39,22 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        rb.velocity=new Vector2(0,rb.velocity.y);
-        Correr();
-        Saltar();
-        //Atacar();
-        Disparar();
-        GirarAnimacion();
-        CheckGround();
+        //if(gameManager.tempx != 0 && gameManager.tempy != 0)//volver a descomentar
+            //transform.position = new Vector2(gameManager.tempx, gameManager.tempy);
+        if(gameManager.vida>0)
+        {
+            rb.velocity=new Vector2(0,rb.velocity.y);
+            Correr();
+            Saltar();
+            //Atacar();
+            Disparar();
+            GirarAnimacion();
+            CheckGround();
+        }
+        else 
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     private void Correr()
@@ -133,28 +141,57 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other){
-        if (other.gameObject.tag == "Enemy"){//cuando colisiona con el enemigo y pierde una vida
-            Debug.Log("Perdiste una vida");
-            gameManager.PerderVida();
+    private void OnTriggerEnter2D(Collider2D other){
+        if(other.gameObject.name =="checkpoint"){
+            Debug.Log("Checkpoint");
+            gameManager.SaveGame();
         }
-        if (other.gameObject.tag == "CoinB"){//cuando colisiona con el hongo y crece
+        if (other.gameObject.tag == "CoinB"){//cuando colisiona con la moneda bronce
             Debug.Log("MonedaB");
             Destroy(other.gameObject);
             audioSource.PlayOneShot(monedaClip);
             gameManager.GanarMonedasB(10);
         }
-        if (other.gameObject.tag == "CoinG"){//cuando colisiona con el hongo y crece
+        if (other.gameObject.tag == "CoinG"){//cuando colisiona con la moneda golden
             Debug.Log("MonedaG");
             Destroy(other.gameObject);
             audioSource.PlayOneShot(monedaClip);
-           // gameManager.GanarMonedasG(10);
+            gameManager.GanarMonedasG(20);
         }
-        if (other.gameObject.tag == "CoinS"){//cuando colisiona con el hongo y crece
+        if (other.gameObject.tag == "CoinS"){//cuando colisiona con la moneda silver
             Debug.Log("MonedaS");
             Destroy(other.gameObject);
             audioSource.PlayOneShot(monedaClip);
-           // gameManager.GanarMonedasS(10);
+            gameManager.GanarMonedasS(30);
         }
+
+        lastCheckpointPosition = transform.position;
+        if(other.gameObject.name == "checkpoint")
+        {
+            var x = transform.position.x;
+            var y = transform.position.y;
+            temp = transform.position;
+            gameManager.GuardarPartida(x,y);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other){
+        if (other.gameObject.tag == "Enemy"  && gameManager.vida >=0){//cuando colisiona con el enemigo y pierde una vida
+            Debug.Log("Perdiste una vida");
+            gameManager.PerderVida();
+            if(gameManager.vida == 0) 
+                ChangeAnimation(ANIMATION_MORIR);
+        }
+        if(other.gameObject.name =="DarkHole")
+        {
+            if(lastCheckpointPosition != null)
+            {
+                transform.position = lastCheckpointPosition;
+            }
+            if(temp != null)
+            {
+                transform.position = temp;
+            }
+        }     
     }
 }
