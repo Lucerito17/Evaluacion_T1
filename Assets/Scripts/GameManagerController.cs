@@ -35,13 +35,13 @@ public class GameManagerController : MonoBehaviour
         coinS = 0;
         tempx = 0;
         tempy = 0;
-        PrintScoreInScreen();
+        //PrintScoreInScreen();
         //PrintBulletInScreen();
-        PrintLifeInScreen();
-        PrintCoinB();
-        PrintCoinG();
-        PrintCoinS();
-        LoadGame();
+        //PrintLifeInScreen();
+        //PrintCoinB();
+        //PrintCoinG();
+        //PrintCoinS();
+        //LoadGame();
     }
 
     public void SaveGame()
@@ -91,10 +91,10 @@ public class GameManagerController : MonoBehaviour
         tempx = data.ax;
         tempy = data.ay;
 
-        PrintScoreInScreen();
-        PrintCoinB();
-        PrintCoinG();
-        PrintCoinS();
+        //PrintScoreInScreen();
+        //PrintCoinB();
+        //PrintCoinG();
+        //PrintCoinS();
     }
 
     public float Tempx()
@@ -146,13 +146,18 @@ public class GameManagerController : MonoBehaviour
     public void GanarPuntos(int punto)
     {
         score += punto;
-        PrintScoreInScreen();
+        //PrintScoreInScreen();
     }
 
     public void PerderBalas()
     {
         balas -= 1;
         //PrintBulletInScreen();
+    }
+
+    public void Balas3(int bala)
+    {
+        balas += bala;
     }
 
     public void PerderVida()
@@ -179,10 +184,10 @@ public class GameManagerController : MonoBehaviour
         PrintCoinS();
     }
     
-    private void PrintScoreInScreen()
+    /*private void PrintScoreInScreen()
     {
         puntosTexto.text = "Puntaje: " + score;
-    }
+    }*/
     
     /*private void PrintBulletInScreen()
     {

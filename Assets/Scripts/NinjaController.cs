@@ -10,7 +10,10 @@ public class NinjaController : MonoBehaviour
     public float jumpVelocity = 8;
     public float velocityClimb = 4;
     bool morir = false;
+    public bool dispara = false;
     public GameObject Balas;
+    public GameObject BalaMediana;
+    public GameObject BalaGrande;
     public GameManagerController gameManager;
     private float gravedadInicial;
     private bool escalar;
@@ -27,6 +30,8 @@ public class NinjaController : MonoBehaviour
     const int ANIMATION_CORRER = 3;
     const int ANIMATION_QUIETO = 0;
     const int ANIMATION_MUERTO = 1;
+    const int ANIMATION_DISPARAR = 2;
+    const int CARGAR = 4;
 
     void Start()
     {
@@ -41,7 +46,16 @@ public class NinjaController : MonoBehaviour
 
     void Update()
     {
-        if(morir == false){
+        //if(dispara == true){
+            //ChangeAnimation(CARGAR);
+            Disparar();
+        //}
+            
+            Saltar();
+            Correr();
+            GirarAnimacion();
+            CheckGround();
+        /*if(morir == false){
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
             Disparar();
@@ -51,7 +65,7 @@ public class NinjaController : MonoBehaviour
             GirarAnimacion();
             CheckGround();
         }
-        else Morir(); 
+        else Morir(); */
     }
 
     private void Morir()
@@ -173,15 +187,18 @@ public class NinjaController : MonoBehaviour
 
     private void Disparar()
     {
+        //dispara = true;
         if(Input.GetKeyDown(KeyCode.X)&&gameManager.Balas()>0)
         {
             if(sr.flipX==true){//disparar hacia la izquierda
+                
                 var BalasPosition = transform.position + new Vector3(-3,0,0);
                 var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
                 //llamar bala, posicion bala , direcion bala
                 var controller = gb.GetComponent<Bullet>();
                 controller.SetLeftDirection();
-                gameManager.PerderBalas();
+                ChangeAnimation(ANIMATION_DISPARAR);
+                //gameManager.PerderBalas();
             }
 
             if(sr.flipX==false){//disparar hacia la derecha
@@ -190,8 +207,10 @@ public class NinjaController : MonoBehaviour
                 //llamar bala, posicion bala , direcion bala
                 var controller = gb.GetComponent<Bullet>();
                 controller.SetRightDirection();
-                gameManager.PerderBalas();
+                ChangeAnimation(ANIMATION_DISPARAR);
+                //gameManager.PerderBalas();
             }
         }
+
     }
 }

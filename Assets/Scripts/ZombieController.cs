@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class ZombieController : MonoBehaviour
 {
-    float velocity = 3;
+    /*float velocity = 3;
     Rigidbody2D rb;
-    SpriteRenderer sr;
+    SpriteRenderer sr;*/
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
+        //rb = GetComponent<Rigidbody2D>();
+        //sr = GetComponent<SpriteRenderer>();
     }
 
 
     void Update()
     {
-        rb.velocity = new Vector2(velocity, rb.velocity.y);//hace que el zombie camine
+        //rb.velocity = new Vector2(velocity, rb.velocity.y);//hace que el zombie camine
     }
 
-    private void OnTriggerEnter2D(Collider2D other){
+   /* private void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "palotransparente"){
             //Debug.Log("entro");
             velocity *= -1;
@@ -29,6 +29,6 @@ public class ZombieController : MonoBehaviour
             else   
                 sr.flipX = true;
         }
-    }
+    }*/
 
 }

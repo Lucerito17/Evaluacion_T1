@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     public float velocity = 20;
     Rigidbody2D rb;
     float realVelocity;
+    public int cont = 0;
     private GameManagerController gameManager;
 
     public void SetRightDirection()
@@ -41,7 +42,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Destroy(other.gameObject);//destruye al objeto topado
-            gameManager.GanarPuntos(10);
+            //gameManager.GanarPuntos(10);
         }  
     }
 }
