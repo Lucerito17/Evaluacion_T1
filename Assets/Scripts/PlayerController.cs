@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float velocityJump = 40;
     public GameObject Bullet;
     public GameManagerController gameManager;
+    private bool guardado = false;
 
     public AudioClip jumpClip;
     public AudioClip monedaClip;
@@ -41,8 +42,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //if(gameManager.tempx != 0 && gameManager.tempy != 0)//volver a descomentar
-            //transform.position = new Vector2(gameManager.tempx, gameManager.tempy);
+        //para guardar la posicion luego de volver a ejecutar 46-50
+        if(guardado == false && gameManager.tempx != 0 && gameManager.tempy != 0)//volver a descomentar
+            {
+                transform.position = new Vector2(gameManager.tempx, gameManager.tempy);
+                guardado = true;
+            }
+            
         if(gameManager.vida>0)
         {
             rb.velocity=new Vector2(0,rb.velocity.y);

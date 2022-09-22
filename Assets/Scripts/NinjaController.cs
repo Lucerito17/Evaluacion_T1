@@ -6,16 +6,21 @@ using UnityEngine.UI;
 
 public class NinjaController : MonoBehaviour
 {
-    public float velocity = 3;
+    public float velocity = 5;
     public float jumpVelocity = 8;
+    public float velocityClimb = 4;
     bool morir = false;
     public GameObject Balas;
     public GameManagerController gameManager;
+    private float gravedadInicial;
+    private bool escalar;
+    private Vector2 input;
 
     Rigidbody2D rb;
     SpriteRenderer sr;
     Animator animator;
     Collider2D cl;
+    BoxCollider2D bc;
     Vector3 lastCheckpointPosition;
     
 
@@ -29,15 +34,20 @@ public class NinjaController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        bc = GetComponent<BoxCollider2D>();
+        gravedadInicial = rb.gravityScale;
         cl = GetComponent<Collider2D>();
     }
 
     void Update()
     {
         if(morir == false){
+            input.x = Input.GetAxisRaw("Horizontal");
+            input.y = Input.GetAxisRaw("Vertical");
             Disparar();
             Saltar();
             Correr();
+            Climb();
             GirarAnimacion();
             CheckGround();
         }
@@ -55,19 +65,58 @@ public class NinjaController : MonoBehaviour
 
     private void Correr()
     {
+        /*rb.velocity = new Vector2(velocity, rb.velocity.y);
+        ChangeAnimation(ANIMATION_CORRER);*/
+        if (Input.GetKey(KeyCode.RightArrow)){
             rb.velocity = new Vector2(velocity, rb.velocity.y);
             ChangeAnimation(ANIMATION_CORRER);
+        }
+        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            ChangeAnimation(ANIMATION_QUIETO);
+        }
+        //Regresar (Q)
+        if (Input.GetKey(KeyCode.LeftArrow)){
+            rb.velocity = new Vector2(-velocity, rb.velocity.y);
+            ChangeAnimation(ANIMATION_CORRER);
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            ChangeAnimation(ANIMATION_QUIETO);
+        }
 
     }
     private void Saltar()
     {
-        animator.SetFloat("jumpVelocity", rb.velocity.y);
+        //animator.SetFloat("jumpVelocity", rb.velocity.y);
         if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
         }
     }
+
+    private void Climb()
+    {
+        animator.SetBool("isClimb", escalar);//cambia la animación
+        if(!bc.IsTouchingLayers(LayerMask.GetMask("ground"))){escalar = false;}
+        //si se ejecuta este if es porque es falso(esta en el piso) y saldra del metodo trepar (climb) 
+        if((input.y !=0 || escalar) && (bc.IsTouchingLayers(LayerMask.GetMask("ladders")))){
+            //velocidad escalar es true
+            Vector2 velocidadSubida = new Vector2(rb.velocity.x, input.y * velocityClimb);
+            rb.velocity = velocidadSubida;
+            rb.gravityScale = 0;
+            escalar = true;
+        }
+        else
+        {
+            rb.gravityScale = gravedadInicial;
+            escalar = false;
+        }
+    }
+
     private void GirarAnimacion()
     {
         if(rb.velocity.x < 0)
