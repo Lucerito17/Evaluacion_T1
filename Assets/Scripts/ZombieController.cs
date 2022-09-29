@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class ZombieController : MonoBehaviour
 {
-    /*int vida=3;
+    int vida=2;
     public int Vida(){
         return vida;
     }
 
     public void PerderVida(int temp){
         vida-=temp;
-    }*/
+    }
 
-    /*private void OnCollisionEnter2D(Collision2D other){
+    private void OnCollisionEnter2D(Collision2D other){
         if(other.gameObject.tag=="Bala")
             PerderVida(1);
-        if(other.gameObject.tag=="BalaMed")
-            PerderVida(2);
-        if(other.gameObject.tag=="BalaGra")
-            PerderVida(3);
 
         if(vida<=0)
-            Destroy(this.gameObject);}*/
+            Destroy(this.gameObject);
+    }
     
 
     float velocity = 3;

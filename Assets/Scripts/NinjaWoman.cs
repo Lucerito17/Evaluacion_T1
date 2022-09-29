@@ -12,10 +12,14 @@ public class NinjaWoman : MonoBehaviour
     public float velocityClimb = 4;
     bool morir = false;
     public GameObject Balas;
+    private bool atacar = true;
     public GameManagerController gameManager;
     private float gravedadInicial;
     private bool escalar;
     private Vector2 input;
+    public SpriteRenderer srCharacter;
+    public Sprite[] sprites;
+    private int next = 1;
 
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -31,6 +35,7 @@ public class NinjaWoman : MonoBehaviour
     const int ANIMATION_DISPARAR = 2;
     const int CARGAR = 4;
     const int ANIMATION_PLANEAR = 5;
+    const int ANIMATION_ATACAR = 6;
 
     void Start()
     {
@@ -54,6 +59,7 @@ public class NinjaWoman : MonoBehaviour
             Correr();
             Climb();
             Planear();
+            CambioArma();
             GirarAnimacion();
             CheckGround();
         }
@@ -91,6 +97,28 @@ public class NinjaWoman : MonoBehaviour
             ChangeAnimation(ANIMATION_QUIETO);
         }
 
+    }
+
+    public void CambioArma()
+    {
+        srCharacter.sprite = sprites[next];
+        next++;
+        if(next == sprites.Length )
+            next = 0;
+        if(atacar==false)
+            atacar=true;
+        else
+            atacar =false;
+    }
+
+    public void botonataque(){
+        if(atacar == true)
+        {
+            Disparo();
+        }else if(atacar == false)
+        {
+            Atacar();
+        }
     }
 
     public void WalkToLeft()
@@ -200,8 +228,11 @@ public class NinjaWoman : MonoBehaviour
             {
                 transform.position = lastCheckpointPosition;
             }
-        }  
-      
+        } 
+        if(other.gameObject.tag=="Enemy"&&this.gameObject) 
+        {
+            Destroy(other.gameObject);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -213,10 +244,6 @@ public class NinjaWoman : MonoBehaviour
 
     private void Disparar()
     {
-        if(Input.GetKey(KeyCode.X)){
-            ChangeAnimation(ANIMATION_DISPARAR);
-        }
-
         if(Input.GetKeyUp(KeyCode.X)&&gameManager.Balas()>0)
         {
             if(sr.flipX==true){//disparar hacia la izquierda   
@@ -237,5 +264,33 @@ public class NinjaWoman : MonoBehaviour
                 //gameManager.PerderBalas();
             }
         }        
+    }
+
+    private void Disparo()
+    {
+            if(sr.flipX==true){//disparar hacia la izquierda   
+                var BalasPosition = transform.position + new Vector3(-3,0,0);
+                var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
+                //llamar bala, posicion bala , direcion bala
+                var controller = gb.GetComponent<Bullet>();
+                controller.SetLeftDirection();
+                //gameManager.PerderBalas();
+            }
+
+            if(sr.flipX==false){//disparar hacia la derecha
+                var BalasPosition = transform.position + new Vector3(3,0,0);
+                var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
+                //llamar bala, posicion bala , direcion bala
+                var controller = gb.GetComponent<Bullet>();
+                controller.SetRightDirection();
+                //gameManager.PerderBalas();
+            }
+     
+    }
+    private void Atacar()
+    {
+        if(Input.GetKey(KeyCode.X)){
+            ChangeAnimation(ANIMATION_ATACAR);
+        }
     }
 }

@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManagerController>();
         rb = GetComponent<Rigidbody2D>();
-        Destroy(this.gameObject, 3);//eliminacion del objeto
+        Destroy(this.gameObject, 2);//eliminacion del objeto
     }
 
 
@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);//se topa con el objeto 
         if (other.gameObject.tag == "Enemy")
         {
-            Destroy(other.gameObject);//destruye al objeto topado
+            //Destroy(other.gameObject);//destruye al objeto topado
             //gameManager.GanarPuntos(10);
         }
     }
