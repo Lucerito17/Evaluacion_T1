@@ -34,8 +34,7 @@ public class ZombieController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
     }
-
-
+    
     void Update()
     {
         rb.velocity = new Vector2(velocity, rb.velocity.y);//hace que el zombie camine

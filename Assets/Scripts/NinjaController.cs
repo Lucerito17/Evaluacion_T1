@@ -69,8 +69,6 @@ public class NinjaController : MonoBehaviour
 
     private void Correr()
     {
-        /*rb.velocity = new Vector2(velocity, rb.velocity.y);
-        ChangeAnimation(ANIMATION_CORRER);*/
         if (Input.GetKey(KeyCode.RightArrow)){
             rb.velocity = new Vector2(velocity, rb.velocity.y);
             ChangeAnimation(ANIMATION_CORRER);
@@ -141,6 +139,7 @@ public class NinjaController : MonoBehaviour
             sr.flipX = false;
         }
     }
+    
     private void ChangeAnimation(int animation)
     {
         animator.SetInteger("Estado", animation);

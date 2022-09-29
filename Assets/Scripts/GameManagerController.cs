@@ -196,7 +196,7 @@ public class GameManagerController : MonoBehaviour
 
     private void PrintLifeInScreen()
     {
-        vidas.text = "Vida: " + vida;
+        //vidas.text = "Vida: " + vida;
     }
 
     private void PrintCoinB()
