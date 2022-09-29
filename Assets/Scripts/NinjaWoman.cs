@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class NinjaWoman : MonoBehaviour
 {
     public float velocity = 5;
+    private float vl = 0;
     public float jumpVelocity = 8;
     public float velocityClimb = 4;
     bool morir = false;
@@ -45,6 +46,7 @@ public class NinjaWoman : MonoBehaviour
     void Update()
     {
         if(morir == false){
+            rb.velocity = new Vector2(vl, rb.velocity.y);
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
             Disparar();
@@ -90,7 +92,33 @@ public class NinjaWoman : MonoBehaviour
         }
 
     }
-    private void Saltar()
+
+    public void WalkToLeft()
+    {
+        vl = -velocity;
+        ChangeAnimation(ANIMATION_CORRER);
+    }
+
+    public void WalkToRight()
+    {
+        vl = velocity;
+        ChangeAnimation(ANIMATION_CORRER);
+    }
+
+    public void StopWalk()
+    {
+        vl = 0;
+        ChangeAnimation(ANIMATION_QUIETO);
+    }
+
+    public void SaltoBoton()
+    {
+        animator.SetFloat("jumpVelocity", rb.velocity.y);
+        if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
+            rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+    }
+    
+    public void Saltar()
     {
         animator.SetFloat("jumpVelocity", rb.velocity.y);
         if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
@@ -100,7 +128,7 @@ public class NinjaWoman : MonoBehaviour
         }
     }
 
-    private void Planear()
+    public void Planear()
     {
         if(rb.velocity.y<0 && Input.GetKey(KeyCode.Q))
         {
@@ -109,7 +137,7 @@ public class NinjaWoman : MonoBehaviour
         }
     }
 
-    private void Climb()
+    public void Climb()
     {
         animator.SetBool("isClimb", escalar);//cambia la animación
         if(!bc.IsTouchingLayers(LayerMask.GetMask("Ground"))){escalar = false;}
