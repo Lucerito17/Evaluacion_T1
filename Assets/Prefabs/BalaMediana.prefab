@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5904725391453612210}
   - component: {fileID: 6955880809660952544}
   - component: {fileID: -1655824559139412728}
+  - component: {fileID: 6545160378816624361}
   m_Layer: 0
   m_Name: BalaMediana
   m_TagString: Untagged
@@ -123,3 +124,17 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.38, y: 0.12}
   m_Direction: 0
+--- !u!114 &6545160378816624361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6343713352539529560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41669008e6a94b4418248b50a2f9164c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: 20
+  cont: 1000

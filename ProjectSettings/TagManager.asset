@@ -12,6 +12,9 @@ TagManager:
   - CoinS
   - palotransparente
   - Ladders
+  - Bala
+  - BalaMed
+  - BalaGra
   layers:
   - Default
   - TransparentFX

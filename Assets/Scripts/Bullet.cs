@@ -7,7 +7,7 @@ using TMPro;
 
 public class Bullet : MonoBehaviour
 {
-    public float velocity = 20;
+    public float velocity = 15;
     Rigidbody2D rb;
     float realVelocity;
     public int cont = 0;
@@ -43,6 +43,6 @@ public class Bullet : MonoBehaviour
         {
             Destroy(other.gameObject);//destruye al objeto topado
             //gameManager.GanarPuntos(10);
-        }  
+        }
     }
 }

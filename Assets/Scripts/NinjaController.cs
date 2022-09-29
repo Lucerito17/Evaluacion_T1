@@ -10,10 +10,7 @@ public class NinjaController : MonoBehaviour
     public float jumpVelocity = 8;
     public float velocityClimb = 4;
     bool morir = false;
-    public bool dispara = false;
     public GameObject Balas;
-    public GameObject BalaMediana;
-    public GameObject BalaGrande;
     public GameManagerController gameManager;
     private float gravedadInicial;
     private bool escalar;
@@ -32,6 +29,7 @@ public class NinjaController : MonoBehaviour
     const int ANIMATION_MUERTO = 1;
     const int ANIMATION_DISPARAR = 2;
     const int CARGAR = 4;
+    const int ANIMATION_PLANEAR = 5;
 
     void Start()
     {
@@ -46,26 +44,18 @@ public class NinjaController : MonoBehaviour
 
     void Update()
     {
-        //if(dispara == true){
-            //ChangeAnimation(CARGAR);
-            Disparar();
-        //}
-            
-            Saltar();
-            Correr();
-            GirarAnimacion();
-            CheckGround();
-        /*if(morir == false){
+        if(morir == false){
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
             Disparar();
             Saltar();
             Correr();
             Climb();
+            Planear();
             GirarAnimacion();
             CheckGround();
         }
-        else Morir(); */
+        else Morir(); 
     }
 
     private void Morir()
@@ -104,18 +94,27 @@ public class NinjaController : MonoBehaviour
     }
     private void Saltar()
     {
-        //animator.SetFloat("jumpVelocity", rb.velocity.y);
+        animator.SetFloat("jumpVelocity", rb.velocity.y);
         if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+        }
+    }
+
+    private void Planear()
+    {
+        if(rb.velocity.y<0 && Input.GetKey(KeyCode.Q))
+        {
+            ChangeAnimation(ANIMATION_PLANEAR);
+            rb.velocity += Vector2.up*Physics2D.gravity.y*(-0.9f)*Time.deltaTime;
         }
     }
 
     private void Climb()
     {
         animator.SetBool("isClimb", escalar);//cambia la animación
-        if(!bc.IsTouchingLayers(LayerMask.GetMask("ground"))){escalar = false;}
+        if(!bc.IsTouchingLayers(LayerMask.GetMask("Ground"))){escalar = false;}
         //si se ejecuta este if es porque es falso(esta en el piso) y saldra del metodo trepar (climb) 
         if((input.y !=0 || escalar) && (bc.IsTouchingLayers(LayerMask.GetMask("ladders")))){
             //velocidad escalar es true
@@ -187,17 +186,18 @@ public class NinjaController : MonoBehaviour
 
     private void Disparar()
     {
-        //dispara = true;
-        if(Input.GetKeyDown(KeyCode.X)&&gameManager.Balas()>0)
+        if(Input.GetKey(KeyCode.X)){
+            ChangeAnimation(ANIMATION_DISPARAR);
+        }
+
+        if(Input.GetKeyUp(KeyCode.X)&&gameManager.Balas()>0)
         {
-            if(sr.flipX==true){//disparar hacia la izquierda
-                
+            if(sr.flipX==true){//disparar hacia la izquierda   
                 var BalasPosition = transform.position + new Vector3(-3,0,0);
                 var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
                 //llamar bala, posicion bala , direcion bala
                 var controller = gb.GetComponent<Bullet>();
                 controller.SetLeftDirection();
-                ChangeAnimation(ANIMATION_DISPARAR);
                 //gameManager.PerderBalas();
             }
 
@@ -207,10 +207,8 @@ public class NinjaController : MonoBehaviour
                 //llamar bala, posicion bala , direcion bala
                 var controller = gb.GetComponent<Bullet>();
                 controller.SetRightDirection();
-                ChangeAnimation(ANIMATION_DISPARAR);
                 //gameManager.PerderBalas();
             }
-        }
-
+        }        
     }
 }
