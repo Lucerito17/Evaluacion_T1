@@ -76,7 +76,6 @@ public class NinjaManagerController : MonoBehaviour
         int value = r.Next(0, 101);
         if(value < 26)
         {
-            var gb = Instantiate(Enemy, new Vector2(-17, -8), Quaternion.identity) as GameObject;
             var gba = Instantiate(Enemy, new Vector2(0, -2), Quaternion.identity) as GameObject;
             var gbb = Instantiate(Enemy, new Vector2(44, -7), Quaternion.identity) as GameObject;
             stopwatch.Reset();
@@ -86,7 +85,7 @@ public class NinjaManagerController : MonoBehaviour
 
     public void SaveGame()
     {
-        var filePath = Application.persistentDataPath + "/guardarnuevo1.dat";
+        var filePath = Application.persistentDataPath + "/guardarnuevo2.dat";
         FileStream file;
 
         if(File.Exists(filePath))
@@ -105,7 +104,7 @@ public class NinjaManagerController : MonoBehaviour
 
     public void LoadGame()
     {
-        var filePath = Application.persistentDataPath + "/guardarnuevo1.dat";
+        var filePath = Application.persistentDataPath + "/guardarnuevo2.dat";
         FileStream file;
 
         if(File.Exists(filePath))
