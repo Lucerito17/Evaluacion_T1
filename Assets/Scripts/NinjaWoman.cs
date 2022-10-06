@@ -248,7 +248,11 @@ public class NinjaWoman : MonoBehaviour
         }
 
         if(other.gameObject.name =="PasarNivel")//cambiar escena
-            SceneManager.LoadScene(2);
+            {
+                SceneManager.LoadScene(2);
+                gameManager.SaveGame();
+            }
+
     }
 
     private void Disparar()

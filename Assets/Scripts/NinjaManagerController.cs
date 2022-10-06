@@ -33,12 +33,12 @@ public class NinjaManagerController : MonoBehaviour
         //PrintBulletInScreen();
         PrintLifeInScreen();
         PrintCoinB();
-        //LoadGame();
+        LoadGame();
     }
 
     public void SaveGame()
     {
-        var filePath = Application.persistentDataPath + "/guardar.dat";
+        var filePath = Application.persistentDataPath + "/guardarnuevo.dat";
         FileStream file;
 
         if(File.Exists(filePath))
@@ -49,8 +49,6 @@ public class NinjaManagerController : MonoBehaviour
         GameData data = new GameData();
         data.Score = score;
         data.CoinsB = coinB;
-        data.ax = tempx;
-        data.ay = tempy;
 
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, data);
@@ -59,7 +57,7 @@ public class NinjaManagerController : MonoBehaviour
 
     public void LoadGame()
     {
-        var filePath = Application.persistentDataPath + "/guardar.dat";
+        var filePath = Application.persistentDataPath + "/guardarnuevo.dat";
         FileStream file;
 
         if(File.Exists(filePath))
@@ -76,8 +74,6 @@ public class NinjaManagerController : MonoBehaviour
         //usar datos guardados
         score = data.Score;
         coinB = data.CoinsB;
-        tempx = data.ax;
-        tempy = data.ay;
 
         PrintScoreInScreen();
         PrintCoinB();
