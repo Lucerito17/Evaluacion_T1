@@ -20,6 +20,11 @@ public class NinjaWoman : MonoBehaviour
     public const string ARMA_ESPADA = "espada";
     public const string ARMA_PISTOLA = "pistola";
 
+    public AudioClip jumpClip;
+    public AudioClip bulletClip;
+    //public AudioClip upClip;
+    //public AudioClip downClip;
+
     private bool attack = false;
     private string currentArma = ARMA_PISTOLA;
     private float gravedadInicial;
@@ -31,8 +36,8 @@ public class NinjaWoman : MonoBehaviour
     Animator animator;
     Collider2D cl;
     BoxCollider2D bc;
-    Vector3 lastCheckpointPosition;
-    
+    Vector3 lastCheckpointPosition;    
+    AudioSource audioSource;
 
     const int ANIMATION_CORRER = 3;
     const int ANIMATION_QUIETO = 0;
@@ -49,6 +54,7 @@ public class NinjaWoman : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         gravedadInicial = rb.gravityScale;
         cl = GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -68,6 +74,8 @@ public class NinjaWoman : MonoBehaviour
         }
         else Morir(); 
     }
+
+
 
     private void Morir()
     {
@@ -122,6 +130,7 @@ public class NinjaWoman : MonoBehaviour
 
     public void SaltoBoton()
     {
+        audioSource.PlayOneShot(jumpClip);
         animator.SetFloat("jumpVelocity", rb.velocity.y);
         if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
@@ -129,6 +138,7 @@ public class NinjaWoman : MonoBehaviour
     
     public void Saltar()
     {
+        audioSource.PlayOneShot(jumpClip);
         animator.SetFloat("jumpVelocity", rb.velocity.y);
         if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
         rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
@@ -253,12 +263,19 @@ public class NinjaWoman : MonoBehaviour
                 gameManager.SaveGame();
             }
 
+        if(other.gameObject.name =="mine")//cambiar escena
+            {SceneManager.LoadScene(0);
+            gameManager.SaveGame();
+            gameManager.LoadGame();
+            }
+
     }
 
     private void Disparar()
     {
         if(Input.GetKeyUp(KeyCode.X)&&gameManager.Balas()>0)
         {
+            audioSource.PlayOneShot(bulletClip);
             if(sr.flipX==true){//disparar hacia la izquierda   
                 var BalasPosition = transform.position + new Vector3(-3,0,0);
                 var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
@@ -269,6 +286,7 @@ public class NinjaWoman : MonoBehaviour
             }
 
             if(sr.flipX==false){//disparar hacia la derecha
+            audioSource.PlayOneShot(bulletClip);
                 var BalasPosition = transform.position + new Vector3(3,0,0);
                 var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
                 //llamar bala, posicion bala , direcion bala
@@ -282,6 +300,7 @@ public class NinjaWoman : MonoBehaviour
     private void Disparo()
     {
             if(sr.flipX==true){//disparar hacia la izquierda   
+            audioSource.PlayOneShot(bulletClip);
                 var BalasPosition = transform.position + new Vector3(-3,0,0);
                 var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
                 //llamar bala, posicion bala , direcion bala
@@ -291,6 +310,7 @@ public class NinjaWoman : MonoBehaviour
             }
 
             if(sr.flipX==false){//disparar hacia la derecha
+            audioSource.PlayOneShot(bulletClip);
                 var BalasPosition = transform.position + new Vector3(3,0,0);
                 var gb = Instantiate(Balas, BalasPosition, Quaternion.identity) as GameObject;
                 //llamar bala, posicion bala , direcion bala
@@ -305,6 +325,7 @@ public class NinjaWoman : MonoBehaviour
         attack = true;
         if(attack==true)
         {
+            audioSource.PlayOneShot(bulletClip);
            animator.SetTrigger("attack");
         }
     }

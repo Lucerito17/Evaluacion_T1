@@ -16,6 +16,7 @@ public class ZombieController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        gameManager = FindObjectOfType<NinjaManagerController>();
     }
     
     void Update()
@@ -24,6 +25,7 @@ public class ZombieController : MonoBehaviour
         if(vida<=0){
             Destroy(this.gameObject);
             gameManager.GanarPuntos(1);
+            gameManager.CantidadZombies(1);
         }
             
         GirarAnimacion();
@@ -50,6 +52,7 @@ public class ZombieController : MonoBehaviour
         if(other.gameObject.tag == "pain"){
             Destroy(this.gameObject);
             gameManager.GanarPuntos(1);
+            gameManager.CantidadZombies(1);
         }
     }
 
