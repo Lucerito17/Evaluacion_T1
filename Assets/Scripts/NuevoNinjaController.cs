@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class NinjaWoman : MonoBehaviour
+public class NuevoNinjaController : MonoBehaviour
 {
     public float velocity = 5;
     private float vl = 0;
@@ -15,7 +15,7 @@ public class NinjaWoman : MonoBehaviour
     Vector3 temp;
     public GameObject Balas;
     public TMP_Text Nombre;
-    public NinjaManagerController gameManager;
+    public NuevoManager gameManager;
     
     public const string ARMA_ESPADA = "espada";
     public const string ARMA_PISTOLA = "pistola";
@@ -324,7 +324,7 @@ public class NinjaWoman : MonoBehaviour
             }
     }
 
-    private void Atacar()
+    public void Atacar()
     {
         attack = true;
         if(attack==true)

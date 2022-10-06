@@ -8,7 +8,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
 
-public class NinjaManagerController : MonoBehaviour
+public class NuevoManager : MonoBehaviour
 {
     public TMP_Text puntosTexto;
     //public TMP_Text balasTexto;
@@ -48,25 +48,25 @@ public class NinjaManagerController : MonoBehaviour
 
     void Update()
     {
-        TimeSpan timestop = stopwatch.Elapsed;
+        /*TimeSpan timestop = stopwatch.Elapsed;
         if(timestop.TotalSeconds >=3 && timestop.TotalSeconds < 3.1 && temp1 == false )
         {
             aleatorio();
             temp1 = true;
         }
-        if(timestop.TotalSeconds >=3.1 && timestop.TotalSeconds < 3.2 && temp2 == false )
+        if(timestop.TotalSeconds >=2 && timestop.TotalSeconds < 2.3 && temp2 == false )
         {
             aleatorio();
             temp2 = true;
         }
-        if(timestop.TotalSeconds >= 3.1)
+        if(timestop.TotalSeconds >= 3)
         {
             aleatorio();
             stopwatch.Reset();
             stopwatch.Start();
             temp1 = false;
             temp2 = false;
-        }
+        }*/
     }
 
     public void aleatorio()

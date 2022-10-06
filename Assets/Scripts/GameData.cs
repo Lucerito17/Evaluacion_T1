@@ -9,6 +9,8 @@ public class GameData
     public int CoinsB {get; set;}
     public int CoinsG {get; set;}
     public int CoinsS {get; set;}
+    public int Vida {get; set;}
+    public int ZombiesCantidad {get; set;}
     public float ax {get; set;}
     public float ay {get; set;}
 }

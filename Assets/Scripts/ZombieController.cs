@@ -51,7 +51,7 @@ public class ZombieController : MonoBehaviour
         
         if(other.gameObject.tag == "pain"){
             Destroy(this.gameObject);
-            gameManager.GanarPuntos(1);
+            gameManager.GanarPuntos(10);
             gameManager.CantidadZombies(1);
         }
     }

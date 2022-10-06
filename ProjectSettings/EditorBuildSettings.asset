@@ -17,7 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Semana8.unity
     guid: 7ab2637d82d96aa47ab4d9b9f24660a4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Semana 8 part 2.unity
     guid: b65ee3e904569ff4c9e577584e084cba
+  - enabled: 1
+    path: Assets/Scenes/Semana8 - 2.unity
+    guid: e537b5d102876544fbd5b35acefe07a0
   m_configObjects: {}
