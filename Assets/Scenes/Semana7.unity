@@ -2380,7 +2380,6 @@ GameObject:
   - component: {fileID: 1201132448}
   - component: {fileID: 1201132447}
   - component: {fileID: 1201132446}
-  - component: {fileID: 1201132444}
   m_Layer: 5
   m_Name: Atacar
   m_TagString: Untagged
@@ -2408,35 +2407,6 @@ RectTransform:
   m_AnchoredPosition: {x: -44, y: -139.99998}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1201132444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201132442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1662843040}
-          m_TargetAssemblyTypeName: NinjaWoman, Assembly-CSharp
-          m_MethodName: botonataque
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &1201132446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2480,7 +2450,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1201132447}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1662843040}
+        m_TargetAssemblyTypeName: NinjaWoman, Assembly-CSharp
+        m_MethodName: AtacarArmas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1201132447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2849,7 +2831,6 @@ GameObject:
   - component: {fileID: 1417012985}
   - component: {fileID: 1417012984}
   - component: {fileID: 1417012983}
-  - component: {fileID: 1417012982}
   m_Layer: 5
   m_Name: Arma
   m_TagString: Untagged
@@ -2877,35 +2858,6 @@ RectTransform:
   m_AnchoredPosition: {x: -44, y: -62}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1417012982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417012980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1662843040}
-          m_TargetAssemblyTypeName: NinjaWoman, Assembly-CSharp
-          m_MethodName: CambioArma
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &1417012983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2949,7 +2901,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1417012984}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1662843040}
+        m_TargetAssemblyTypeName: NinjaWoman, Assembly-CSharp
+        m_MethodName: CambioArma
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1417012984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3215,10 +3179,6 @@ MonoBehaviour:
   velocityClimb: 4
   Balas: {fileID: 7124504264555245817, guid: 44d8e786acd91f74aa6f2a865d2a1e14, type: 3}
   gameManager: {fileID: 1516493354}
-  srCharacter: {fileID: 1662843037}
-  sprites:
-  - {fileID: 21300000, guid: f46dc387945e13740a2caf64dd56b6ca, type: 3}
-  - {fileID: 21300000, guid: d3b6e40c9d36c53469e23b792714b9a6, type: 3}
 --- !u!1 &1725770350
 GameObject:
   m_ObjectHideFlags: 0

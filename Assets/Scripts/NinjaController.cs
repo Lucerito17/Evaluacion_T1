@@ -15,7 +15,7 @@ public class NinjaController : MonoBehaviour
     private float gravedadInicial;
     private bool escalar;
     private Vector2 input;
-
+    
     Rigidbody2D rb;
     SpriteRenderer sr;
     Animator animator;

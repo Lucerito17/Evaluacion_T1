@@ -7,7 +7,7 @@ public class MenuController : MonoBehaviour
 {
     //public SpriteRenderer srCharacter;
     //public Sprite[] sprites;
-    private int next = 1;
+    //private int next = 1;
 
     void Start(){
 

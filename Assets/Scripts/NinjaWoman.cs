@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NinjaWoman : MonoBehaviour
 {
@@ -11,15 +12,19 @@ public class NinjaWoman : MonoBehaviour
     public float jumpVelocity = 8;
     public float velocityClimb = 4;
     bool morir = false;
+    Vector3 temp;
     public GameObject Balas;
-    private bool atacar = true;
-    public GameManagerController gameManager;
+    public TMP_Text Nombre;
+    public NinjaManagerController gameManager;
+    
+    public const string ARMA_ESPADA = "espada";
+    public const string ARMA_PISTOLA = "pistola";
+
+    private bool attack = false;
+    private string currentArma = ARMA_PISTOLA;
     private float gravedadInicial;
     private bool escalar;
     private Vector2 input;
-    public SpriteRenderer srCharacter;
-    public Sprite[] sprites;
-    private int next = 1;
 
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -32,10 +37,8 @@ public class NinjaWoman : MonoBehaviour
     const int ANIMATION_CORRER = 3;
     const int ANIMATION_QUIETO = 0;
     const int ANIMATION_MUERTO = 1;
-    const int ANIMATION_DISPARAR = 2;
     const int CARGAR = 4;
     const int ANIMATION_PLANEAR = 5;
-    const int ANIMATION_ATACAR = 6;
 
     void Start()
     {
@@ -55,11 +58,11 @@ public class NinjaWoman : MonoBehaviour
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
             Disparar();
-            Saltar();
+            //Saltar();
+            Jump();
             Correr();
             Climb();
             Planear();
-            CambioArma();
             GirarAnimacion();
             CheckGround();
         }
@@ -99,28 +102,6 @@ public class NinjaWoman : MonoBehaviour
 
     }
 
-    public void CambioArma()
-    {
-        srCharacter.sprite = sprites[next];
-        next++;
-        if(next == sprites.Length )
-            next = 0;
-        if(atacar==false)
-            atacar=true;
-        else
-            atacar =false;
-    }
-
-    public void botonataque(){
-        if(atacar == true)
-        {
-            Disparo();
-        }else if(atacar == false)
-        {
-            Atacar();
-        }
-    }
-
     public void WalkToLeft()
     {
         vl = -velocity;
@@ -150,10 +131,7 @@ public class NinjaWoman : MonoBehaviour
     {
         animator.SetFloat("jumpVelocity", rb.velocity.y);
         if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
-        }
+        rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
     }
 
     public void Planear()
@@ -162,6 +140,18 @@ public class NinjaWoman : MonoBehaviour
         {
             ChangeAnimation(ANIMATION_PLANEAR);
             rb.velocity += Vector2.up*Physics2D.gravity.y*(-0.9f)*Time.deltaTime;
+        }
+    }
+
+    public void Jump()
+    {
+        animator.SetFloat("jumpVelocity", rb.velocity.y);//jumpVelocity es el nombre del bool del animator (estado
+        //Saltar
+        if(!cl.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
+        //si se ejecuta este if es porque es falso(esta en el piso) y saldra del metodo saltar 
+        if (Input.GetKeyDown(KeyCode.W))//SALTO
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
         }
     }
 
@@ -228,7 +218,13 @@ public class NinjaWoman : MonoBehaviour
             {
                 transform.position = lastCheckpointPosition;
             }
-        } 
+            
+            if(temp != null)
+            {
+                transform.position = temp;
+            }
+        }
+
         if(other.gameObject.tag=="Enemy"&&this.gameObject) 
         {
             Destroy(other.gameObject);
@@ -240,6 +236,19 @@ public class NinjaWoman : MonoBehaviour
         Debug.Log("Trigger");
         lastCheckpointPosition = transform.position;
         
+        if(other.tag == "CoinB")
+        {
+            gameManager.GanarMonedasB(1);
+            Destroy(other.gameObject);
+        }
+
+        if(other.gameObject.tag == "Checkpoint")
+        {
+            temp = transform.position;
+        }
+
+        if(other.gameObject.name =="PasarNivel")//cambiar escena
+            SceneManager.LoadScene(2);
     }
 
     private void Disparar()
@@ -285,12 +294,40 @@ public class NinjaWoman : MonoBehaviour
                 controller.SetRightDirection();
                 //gameManager.PerderBalas();
             }
-     
     }
+
     private void Atacar()
     {
-        if(Input.GetKey(KeyCode.X)){
-            ChangeAnimation(ANIMATION_ATACAR);
+        attack = true;
+        if(attack==true)
+        {
+           animator.SetTrigger("attack");
+        }
+    }
+
+    public void CambioArma()
+    {
+        if(currentArma == ARMA_PISTOLA){
+            currentArma = ARMA_ESPADA;
+            Nombre.text = "Katana";
+        }
+        else if(currentArma == ARMA_ESPADA){
+            currentArma = ARMA_PISTOLA;
+            Nombre.text = "Kunai";
+        }
+    }
+
+    public void AtacarArmas()
+    {
+        if (currentArma == ARMA_PISTOLA)
+        {
+            Debug.Log("Disparar con pistola");
+            Disparo();
+        }
+        if (currentArma == ARMA_ESPADA)
+        {
+            Debug.Log("Atacar con espada");
+            Atacar();
         }
     }
 }
