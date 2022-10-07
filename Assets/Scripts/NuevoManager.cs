@@ -48,7 +48,7 @@ public class NuevoManager : MonoBehaviour
 
     void Update()
     {
-        /*TimeSpan timestop = stopwatch.Elapsed;
+        TimeSpan timestop = stopwatch.Elapsed;
         if(timestop.TotalSeconds >=3 && timestop.TotalSeconds < 3.1 && temp1 == false )
         {
             aleatorio();
@@ -66,7 +66,7 @@ public class NuevoManager : MonoBehaviour
             stopwatch.Start();
             temp1 = false;
             temp2 = false;
-        }*/
+        }
     }
 
     public void aleatorio()

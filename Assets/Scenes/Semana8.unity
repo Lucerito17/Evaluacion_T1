@@ -3240,7 +3240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd1fdea2d185e1429b4e2f33a5c6015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 8
+  velocity: 10
   jumpVelocity: 10
   velocityClimb: 4
   Balas: {fileID: 7124504264555245817, guid: 44d8e786acd91f74aa6f2a865d2a1e14, type: 3}
